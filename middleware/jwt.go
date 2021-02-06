@@ -13,8 +13,8 @@ import (
 	"api/models"
 )
 
-func JwtMiddleware() *jwt.GinJWTMiddleware {
-	return &jwt.GinJWTMiddleware{
+func JwtMiddleware() (*jwt.GinJWTMiddleware, error) {
+	return jwt.New(&jwt.GinJWTMiddleware{
 		Realm:         "Realmname",
 		Key:           []byte("SecrteKey"),
 		Timeout:       time.Hour,
@@ -26,7 +26,7 @@ func JwtMiddleware() *jwt.GinJWTMiddleware {
 				"message": message,
 			})
 		},
-	}
+	})
 }
 
 //authenticator function for jwt middleware

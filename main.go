@@ -1,19 +1,25 @@
 package main
 
-import(
+import (
+	"log"
+
 	//Package gin implements a HTTP web framework called gin
 	"github.com/gin-gonic/gin"
-	"api/models"
+
 	"api/handlers"
 	"api/middleware"
+	"api/models"
 )
 
-func main(){
+func main() {
 	r := gin.Default()
 	models.ConnectDataBase()
 
 	//create a jwt middlware
-	jwt := middleware.JwtMiddleware()
+	jwt, err := middleware.JwtMiddleware()
+	if err != nil {
+		log.Fatalf("faile to init jwt: %s", err)
+	}
 
 	//use localhost:8080/login to get token
 	//username: admin
