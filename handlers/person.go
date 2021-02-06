@@ -2,21 +2,23 @@
 
 package handlers
 
-import(
+import (
 	"net/http"
+
 	"github.com/gin-gonic/gin"
+
 	"api/models"
 )
 
 // GET /users
 // Get all users
 func GetPeople(c *gin.Context) {
-	var people []models.Person
+	var people []*models.Person
 	if err := models.DB.Find(&people).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	} else {
-		c.JSON(http.StatusOK, people)
+		c.ProtoBuf(http.StatusOK, &models.UsersResponse{Users: people})
 	}
 }
 

@@ -3,10 +3,13 @@
 package middleware
 
 import (
-	"github.com/gin-gonic/gin"
 	"time"
+
+	"github.com/gin-gonic/gin"
+
 	//JWT Middleware for Gin framework
-	"github.com/appleboy/gin-jwt"
+	jwt "github.com/appleboy/gin-jwt/v2"
+
 	"api/models"
 )
 
@@ -19,7 +22,7 @@ func JwtMiddleware() *jwt.GinJWTMiddleware {
 		Authenticator: authenticator,
 		Unauthorized: func(c *gin.Context, code int, message string) {
 			c.JSON(200, gin.H{
-		  		"code":    code,
+				"code":    code,
 				"message": message,
 			})
 		},
@@ -33,9 +36,8 @@ func authenticator(c *gin.Context) (interface{}, error) {
 		return "", jwt.ErrMissingLoginValues
 	}
 	//admin = password
-	if user.Username == "admin" &&  user.Password == "password" {
+	if user.Username == "admin" && user.Password == "password" {
 		return user, nil
 	}
 	return nil, jwt.ErrFailedAuthentication
 }
-

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package = "api/models";
+
+message Person {
+  int64 id = 1;
+  string name = 2;
+  int32 age = 3;
+  string city = 4;
+}
+
+message UsersResponse {
+  repeated Person users = 1;
+}
